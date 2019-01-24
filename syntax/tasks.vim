@@ -1,9 +1,11 @@
 " Tasks syntax
 " Language:    Tasks
-" Maintainer:  Chris Rolfs
-" Last Change: Aug 7, 2015
-" Version:	   0.1
-" URL:         https://github.com/irrationalistic/vim-tasks
+" Maintainer:  Paul Schiffers
+"              Previous maintainer:
+"              Chris Rolfs
+" Last Change: Jan 24, 2019
+" Version:     0.1
+" URL:         https://github.com/relnod/vim-tasks
 
 if version < 600
   syntax clear
@@ -34,8 +36,9 @@ call s:CreateMatch('tMarkerComplete', '^\s*' . escape(g:TasksMarkerDone, b:reges
 
 exec 'syn match tAttribute "' . g:TasksAttributeMarker . '\w\+\(([^)]*)\)\=" contained'
 exec 'syn match tAttributeCompleted "' . g:TasksAttributeMarker . '\w\+\(([^)]*)\)\=" contained'
+syn match tTagImportant "@important" contained
 
-syn region tTask start=/^\s*/ end=/$/ oneline keepend contains=tMarker,tAttribute
+syn region tTask start=/^\s*/ end=/$/ oneline keepend contains=tMarker,tAttribute,tTagImportant
 exec 'syn region tTaskDone start="^[\s]*.*'.g:TasksAttributeMarker.'done" end=/$/ oneline contains=tMarkerComplete,tAttributeCompleted'
 exec 'syn region tTaskCancelled start="^[\s]*.*'.g:TasksAttributeMarker.'cancelled" end=/$/ oneline contains=tMarkerCancelled,tAttributeCompleted'
 syn match tProject "^\s*.*:$"
@@ -48,3 +51,4 @@ hi def link tAttributeCompleted Function
 hi def link tTaskDone Comment
 hi def link tTaskCancelled Comment
 hi def link tProject Constant
+hi def link tTagImportant Error

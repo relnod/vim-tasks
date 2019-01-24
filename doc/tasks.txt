@@ -106,6 +106,7 @@ TasksArchive()                                                *TasksArchive()*
 
 *<leader>n* Add a new task below the current line
 *<leader>N* Add a new task above the current line
+*<leader>i* Add/Remove the important tag
 *<leader>d* Complete the current task(s)
 *<leader>x* Cancel the current task(s)
 *<leader>a* Update/build the archives

@@ -1,9 +1,11 @@
 " Tasks plugin
 " Language:    Tasks
-" Maintainer:  Chris Rolfs
-" Last Change: Aug 7, 2015
-" Version:	   0.1
-" URL:         https://github.com/irrationalistic/vim-tasks
+" Maintainer:  Paul Schiffers
+"              Previous maintainer:
+"              Chris Rolfs
+" Last Change: Jan 24, 2019
+" Version:     0.1
+" URL:         https://github.com/relnod/vim-tasks
 
 if exists("b:loaded_tasks")
   finish
@@ -13,6 +15,7 @@ let b:loaded_tasks = 1
 " MAPPINGS
 nnoremap <buffer> <leader>n :call NewTask(1)<cr>
 nnoremap <buffer> <leader>N :call NewTask(-1)<cr>
+nnoremap <buffer> <leader>i :call TaskTag('important')<cr>
 nnoremap <buffer> <leader>d :call TaskComplete()<cr>
 nnoremap <buffer> <leader>x :call TaskCancel()<cr>
 nnoremap <buffer> <leader>a :call TasksArchive()<cr>
@@ -117,6 +120,23 @@ function! GetProjects()
     let l:lineNr = l:lineNr - 1
   endwhile
   return reverse(l:results)
+endfunc
+
+function! TaskTag(tag)
+  let l:line = getline('.')
+  let l:isMatch = match(l:line, s:regMarker)
+  let l:tagMatch = match(l:line, a:tag)
+
+  if l:isMatch > -1
+    if l:tagMatch > -1
+      " this task is done, so we need to remove the marker and the
+      " @done/@project
+      call RemoveAttribute(a:tag)
+    else
+      " swap out the marker, add the @done, find the projects and add @project
+      call AddAttribute('important', '')
+    endif
+  endif
 endfunc
 
 function! TaskComplete()
